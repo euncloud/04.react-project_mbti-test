@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { updateProfile } from "../api/auth";
 
 
-const Profile = ({ user, setUser }) => {
+const ProfilePage = ({ user, setUser }) => {
   const [nickname, setNickname] = useState(user?.nickname || "");
 
   const handleNicknameChange = (e) => {
@@ -34,4 +34,4 @@ const Profile = ({ user, setUser }) => {
   );
 };
 
-export default Profile;
+export default ProfilePage;

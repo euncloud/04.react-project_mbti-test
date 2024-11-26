@@ -1,20 +1,21 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import Header from "../components/Header";
-import Home from "../pages/Home";
-import Login from "../pages/Login";
-import Test from "../pages/Test";
-import TestResult from "../pages/TestResult";
-import Profile from "../pages/Profile";
+import Layout from "../components/Layout";
+import HomePage from "../pages/HomePage";
+import LoginPage from "../pages/LoginPage";
+import ProfilePage from "../pages/ProfilePage";
+import TestPage from "../pages/TestPage";
+import TestResultPage from "../pages/TestResultPage";
 
 const SharedRouter = () => (
     <BrowserRouter>
-        <Header />
         <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
-            <Route path="/test" element={<Test />} />
-            <Route path="/testresult" element={<TestResult />} />
-            <Route path="/prifile" element={<Profile />} />
+            <Route element={<Layout />}>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/login" element={<LoginPage />} />
+                <Route path="/profile" element={<ProfilePage />} />
+                <Route path="/test" element={<TestPage />} />
+                <Route path="/testresult" element={<TestResultPage />} />
+            </Route>
         </Routes>
     </BrowserRouter>
 );

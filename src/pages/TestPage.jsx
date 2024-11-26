@@ -4,7 +4,7 @@ import { calculateMBTI, mbtiDescriptions } from "../utils/mbtiCalculator";
 import { createTestResult } from "../api/testResults";
 import { useNavigate } from "react-router-dom";
 
-const Test = ({ user }) => {
+const TestPage = ({ user }) => {
   const navigate = useNavigate();
   const [result, setResult] = useState(null);
 
@@ -49,4 +49,4 @@ const Test = ({ user }) => {
   );
 };
 
-export default Test;
+export default TestPage;

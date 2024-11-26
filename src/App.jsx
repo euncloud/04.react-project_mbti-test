@@ -1,11 +1,10 @@
-import './App.css'
 import SharedRouter from './shared/Router'
 
 function App() {
 
   return (
     <>
-     <SharedRouter />
+      <SharedRouter />
     </>
   )
 }
