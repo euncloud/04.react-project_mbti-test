@@ -8,11 +8,11 @@ import { toast } from "react-toastify";
 
 const AuthForm = ({ mode }) => {
   const [formData, setFormData] = useState({ id: "", password: "", nickname: "" });
-  const { setUser } = userBearsStore((state) => state);  
+  const { setUser } = userBearsStore((state) => state);
   const navigate = useNavigate();
 
   const { mutate: mutateSignup } = useMutation({
-    mutationFn: register,
+    mutationFn: register, // auth.js register
     onSuccess: (data) => {
       console.log("회원가입 성공", data);
       toast.success("회원가입이 완료되었습니다!🎉");
@@ -25,10 +25,10 @@ const AuthForm = ({ mode }) => {
   })
 
   const { mutate: mutateLogin, isLoading } = useMutation({
-    mutationFn: login,
+    mutationFn: login, // auth.js login
     onSuccess: (data) => {
       console.log('data', data);
-      toast.success("로그인 성공! :D");
+      toast.success("로그인 성공! 👋");
 
       localStorage.setItem("accessToken", data.accessToken); // 로컬스토리지에 로그인 토큰 정보 저장
       setUser(data.nickname, data.accessToken); // 전역 변수로 유저 닉네임, 토큰 정보 저장

@@ -2,14 +2,16 @@ import { apiMoneyful } from '../axios/api';
 
 export const checkAuth = async () => {
   const token = localStorage.getItem("accessToken") || null;
+
   if(!token){
     return false;
   }
+
   const response = await apiMoneyful
   .get("/user", {
     headers: { Authorization: `Bearer ${token}`},
   });
-  return response.data.success;
+  return response.data;
 }
 
 export const register = async (userData) => {
