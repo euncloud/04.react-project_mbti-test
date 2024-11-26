@@ -2,9 +2,11 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Layout from "../components/Layout";
 import HomePage from "../pages/HomePage";
 import LoginPage from "../pages/LoginPage";
+import SignupPage from "../pages/SignupPage";
 import ProfilePage from "../pages/ProfilePage";
 import TestPage from "../pages/TestPage";
 import TestResultPage from "../pages/TestResultPage";
+import ProtectedRoute from "../components/ProtectedRoute";
 
 const SharedRouter = () => (
     <BrowserRouter>
@@ -12,12 +14,15 @@ const SharedRouter = () => (
             <Route element={<Layout />}>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/login" element={<LoginPage />} />
-                <Route path="/profile" element={<ProfilePage />} />
-                <Route path="/test" element={<TestPage />} />
-                <Route path="/testresult" element={<TestResultPage />} />
+                <Route path="/signup" element={<SignupPage />} />
+                <Route element={<ProtectedRoute />} >
+                    <Route path="/profile" element={<ProfilePage />} />
+                    <Route path="/test" element={<TestPage />} />
+                    <Route path="/testresult" element={<TestResultPage />} />
+                </Route>
             </Route>
         </Routes>
-    </BrowserRouter>
+    </BrowserRouter >
 );
 
 export default SharedRouter;
