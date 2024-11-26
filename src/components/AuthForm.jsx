@@ -4,6 +4,7 @@ import { login, register } from "../api/auth";
 import { useMutation } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import userBearsStore from "../zustand/bearsStore";
+import { toast } from "react-toastify";
 
 const AuthForm = ({ mode }) => {
   const [formData, setFormData] = useState({ id: "", password: "", nickname: "" });
@@ -14,12 +15,12 @@ const AuthForm = ({ mode }) => {
     mutationFn: register,
     onSuccess: (data) => {
       console.log("회원가입 성공", data);
-      alert("회원가입이 완료되었습니다!");
+      toast.success("회원가입이 완료되었습니다!🎉");
       navigate("/login");
     },
     onError: (error) => {
       console.error("회원가입 실패:", error.response?.data || error.message);
-      alert(error.response?.data.message || "회원가입 중 오류가 발생했습니다.\n" + error.message);
+      toast.error(error.response?.data.message || "회원가입 중 오류가 발생했습니다.\n" + error.message);
     }
   })
 
@@ -27,7 +28,7 @@ const AuthForm = ({ mode }) => {
     mutationFn: login,
     onSuccess: (data) => {
       console.log('data', data);
-      alert("로그인 성공! :D");
+      toast.success("로그인 성공! :D");
 
       localStorage.setItem("accessToken", data.accessToken); // 로컬스토리지에 로그인 토큰 정보 저장
       setUser(data.nickname, data.accessToken); // 전역 변수로 유저 닉네임, 토큰 정보 저장
@@ -35,8 +36,8 @@ const AuthForm = ({ mode }) => {
       navigate('/');
     },
     onError: (error) => {
-      console.error("로그인 실패:", error.response?.data || error.message);
-      alert(error.response?.data.message || "로그인 중 오류가 발생했습니다.\n" + error.message);
+      console.log("로그인 실패:", error.response?.data || error.message);
+      toast.error(error.response?.data.message || "로그인 중 오류가 발생했습니다.\n" + error.message);
     }
   });
 
