@@ -30,6 +30,12 @@ export const deleteTestResult = async () => {
   return '삭제 성공';
 };
 
-export const updateTestResultVisibility = async (id, visibility) => {
-
+export const getAllTestResults = async () => {
+  const response = await api
+  .get("/");
+  return response.data;
 };
+
+// export const updateTestResultVisibility = async (id, visibility) => {
+
+// };

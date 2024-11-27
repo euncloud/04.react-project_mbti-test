@@ -1,3 +1,18 @@
 {
-  "testResults": []
+  "testResults": [
+    {
+      "id": "c65d",
+      "nickname": "은농",
+      "userId": "een0422",
+      "mbti": "INFJ",
+      "date": "2024. 11. 27. 오후 9:19:12"
+    },
+    {
+      "id": "c65f",
+      "nickname": "모모",
+      "userId": "efef",
+      "mbti": "ESTJ",
+      "date": "2024. 11. 27. 오후 10:19:12"
+    }
+  ]
 }

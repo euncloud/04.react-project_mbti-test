@@ -26,10 +26,10 @@ export const login = async (userData) => {
   return response.data;
 };
 
-export const getUserProfile = async (token) => {
+// export const getUserProfile = async (token) => {
 
-};
+// };
 
-export const updateProfile = async (formData) => {
+// export const updateProfile = async (formData) => {
 
-};
+// };

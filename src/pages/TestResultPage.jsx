@@ -8,7 +8,7 @@ import userBearsStore from '../zustand/bearsStore';
 
 const TestResultPage = () => {
   const navigate = useNavigate();
-  const { userId } = userBearsStore((state) => state);
+  const { user, userId } = userBearsStore((state) => state);
   const queryClient = useQueryClient();
 
   const { data, isPending, isError, isSuccess, error } = useQuery({
@@ -60,11 +60,11 @@ const TestResultPage = () => {
     return (
       <div className="bg-gray-50 py-10">
         {/* 결과 페이지 내용 */}
-        <div className="max-w-2xl mx-auto text-left">
-          <h2 className="text-3xl font-semibold text-gray-800 mb-10">나의 MBTI 테스트 결과</h2>
+        <div className="max-w-2xl mx-auto text-center">
+          <h2 className="text-3xl font-semibold text-gray-800 mb-10">{user}님의 MBTI 테스트 결과</h2>
         </div>
         <div className="max-w-2xl mx-auto p-8 bg-white rounded-lg shadow-lg space-y-6">
-          <h1 className="text-4xl font-bold text-center text-gray-800">
+          <h1 className="text-4xl font-bold text-left text-gray-800">
             {data[0].mbti}
           </h1>
 

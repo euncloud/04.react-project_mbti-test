@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { updateProfile } from "../api/auth";
+// import { updateProfile } from "../api/auth";
 
 
 const ProfilePage = ({ user, setUser }) => {
