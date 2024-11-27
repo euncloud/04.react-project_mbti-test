@@ -70,7 +70,7 @@ const TestForm = () => {
                   checked={answers[index]?.answer === q.type.split("/")[i]}
                   onChange={() => handleChange(index, q.type.split("/")[i])}
                   className="mr-2 text-primary-color"
-
+                  required    
                 />
                 {option}
               </label>

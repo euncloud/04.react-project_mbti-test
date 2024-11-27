@@ -13,10 +13,10 @@ const ProfilePage = () => {
   //   onSuccess: () => toast.success('변경 완료'),
   // })
 
-  const { mutate : saveProfile } = useMutation({
+  const { mutate: saveProfile } = useMutation({
     mutationFn: (nickname) => updateProfile(nickname),
     onSuccess: (data) => {
-      toast.success(`닉네임이 ${data.nickname}으로 변경되었습니다.`);
+      toast.success(`닉네임이 ${data.nickname} 님으로 변경되었습니다.`);
       setUser(data.nickname);
     }
   })
@@ -27,7 +27,9 @@ const ProfilePage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    saveProfile(nickname, userId);
+    if (window.confirm(`닉네임을 ${nickname} 님으로 변경하시겠습니까?`)) {
+      saveProfile(nickname, userId);
+    }
   };
 
   return (
@@ -42,6 +44,7 @@ const ProfilePage = () => {
               value={nickname}
               onChange={handleNicknameChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
+              required
               placeholder={user}
             />
           </div>

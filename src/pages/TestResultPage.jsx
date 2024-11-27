@@ -30,7 +30,9 @@ const TestResultPage = () => {
   })
 
   const handleRestartTest = () => {
-    mutate(userId);
+    if (window.confirm("테스트를 새로 시작하시겠습니까?")) {
+      mutate(userId);
+    }
   };
 
   // useEffect(() => {
