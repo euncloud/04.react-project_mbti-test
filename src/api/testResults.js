@@ -1,8 +1,15 @@
 import api from '../axios/api';
 
 export const getTestResults = async () => {
+  const token = localStorage.getItem("accessToken") || null;
+  
+  if(!token){
+    return null;
+  }
+
   const response = await api
-  .get("");
+  .get(`?token=${token}`);
+  console.log('getTestResults response', response);
   return response.data;
 };
 

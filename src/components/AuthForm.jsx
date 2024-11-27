@@ -87,7 +87,7 @@ const AuthForm = ({ mode }) => {
         />
       )}
       <button type="submit"
-        className="w-full p-4 bg-red-500 text-white rounded-lg hover:bg-red-600"
+        className="w-full p-4 bg-purple-600 text-white rounded-lg hover:bg-purple-800 transition-all"
         disabled={!!isLoading}
       >
         {mode === "login" ? (isLoading ? "로그인 중..." : "로그인") : "회원가입"}

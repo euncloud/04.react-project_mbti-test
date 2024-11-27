@@ -1,20 +1,19 @@
 import React, { useState } from "react";
 import TestForm from "../components/TestForm";
-import { calculateMBTI, mbtiDescriptions } from "../utils/mbtiCalculator";
-import { createTestResult } from "../api/testResults";
+import { mbtiDescriptions } from "../utils/mbtiCalculator";
 import { useNavigate } from "react-router-dom";
 
 const TestPage = ({ user }) => {
   const navigate = useNavigate();
-  const [result, setResult] = useState(null);
+  const [result, setResult] = useState(null); // 테스트 결과가 있는 경우?
 
   const handleNavigateToResults = () => {
     navigate("/results");
   };
 
   return (
-    <div className="w-full flex flex-col items-center justify-center bg-white">
-      <div className="bg-white rounded-lg p-8 max-w-lg w-full h-full overflow-y-auto">
+    <div className="w-full flex flex-col items-center justify-center bg-gray-50">
+      <div className="bg-white rounded-lg p-8 max-w-2xl w-full h-full overflow-y-auto">
         {!result ? (
           <>
             <h1 className="text-3xl font-bold text-primary-color mb-6">

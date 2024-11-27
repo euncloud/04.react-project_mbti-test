@@ -7,14 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import userBearsStore from "../zustand/bearsStore";
 
-const TestForm = () => {
+const TestForm = ({ onSubmit }) => {
   const [answers, setAnswers] = useState(
     Array(questions.length).fill({ type: "", answer: "" }),
   );
-  const [testData, setTestData] = useState({ id: "", nickname: "", mbti: "" , date: ""});
+  // const [testData, setTestData] = useState({ id: "", nickname: "", mbti: "", date: "" });
   const navigate = useNavigate();
   const { user, accessToken } = userBearsStore((state) => state);
-
 
   const { mutate } = useMutation({
     mutationFn: createTestResult, // testResults.js
@@ -29,10 +28,9 @@ const TestForm = () => {
     }
   })
 
-
-  const handleChange = (index, answer) => {
+  const handleChange = (index, value) => {
     const newAnswers = [...answers];
-    newAnswers[index] = { type: questions[index].type, answer };
+    newAnswers[index] = { type: questions[index].type, answer: value };
     setAnswers(newAnswers);
   };
 
@@ -45,30 +43,34 @@ const TestForm = () => {
       mbti: mbti,
       date: new Date().toLocaleString(),
     }
-    setTestData(formData); // setTestData 위치 이동 필요
+    // setTestData(formData); 
     mutate(formData); // 테스트 결과 DB 저장
   };
 
   return (
     <form onSubmit={handleTestSubmit} className="space-y-6 p-6 bg-white rounded-lg">
       {questions.map((q, index) => (
-        <div key={q.id} className="mb-6">
+        <div
+          key={q.id}
+          className="mb-6 p-4 border border-gray-300 rounded-lg hover:border-purple-500 transition-colors duration-300"
+        >
           <p className="font-semibold text-lg mb-3">{q.question}</p>
           <div className="space-y-2">
             {q.options.map((option, i) => (
               <label
                 key={i}
-                className={`block p-3 border rounded-lg cursor-pointer transition-colors duration-300 ${answers[index]?.answer === option ? "bg-gray-100" : ""
-                  } hover:bg-gray-100`}
+                className={`block p-3 border rounded-lg cursor-pointer transition-colors duration-300 
+                  ${answers[index]?.answer === q.type.split("/")[i]
+                    ? "bg-gray-200" : ""} hover:bg-purple-200`}
               >
                 <input
                   type="radio"
                   name={`question-${index}`}
-                  value={option}
-                  checked={answers[index]?.answer === option}
-                  onChange={() => handleChange(index, option)}
-                  
+                  value={q.type.split("/")[i]}
+                  checked={answers[index]?.answer === q.type.split("/")[i]}
+                  onChange={() => handleChange(index, q.type.split("/")[i])}
                   className="mr-2 text-primary-color"
+
                 />
                 {option}
               </label>
@@ -78,11 +80,13 @@ const TestForm = () => {
       ))}
       <button
         type="submit"
-        className="w-full bg-primary-color text-white py-3 rounded-lg font-semibold hover:bg-primary-dark transition duration-300 hover:text-[#FF5A5F]"
+        className="w-full bg-purple-500 text-white py-3 rounded-lg font-semibold hover:bg-purple-700 transition duration-300"
       >
         제출하기
       </button>
     </form>
+
+
   );
 };
 

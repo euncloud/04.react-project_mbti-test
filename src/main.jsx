@@ -17,7 +17,6 @@ createRoot(document.getElementById('root')).render(
         autoClose={1000} 
         hideProgressBar={true} 
         closeOnClick 
-        pauseOnHover
         draggable 
         theme="light" />
     </QueryClientProvider>

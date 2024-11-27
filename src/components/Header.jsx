@@ -34,35 +34,34 @@ const Header = () => {
           className="h-8 w-8 mr-4 cursor-pointer hover:opacity-80 transition-opacity"
           onClick={() => navigate("/")}
         />
-        <span className="text-lg font-bold text-gray-800">홈</span>
       </div>
 
       {hasToken || user ? (
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-8">
           <button
-            className="text-gray-800 hover:text-gray-500 transition-all"
+            className="text-gray-800 hover:text-purple-600 transition-all"
             onClick={() => navigate("/test")}>
             테스트
           </button>
           <button
-            className="text-gray-800 hover:text-gray-500 transition-all"
+            className="text-gray-800 hover:text-purple-600 transition-all"
             onClick={() => navigate("/testresult")}>
             결과보기
           </button>
           <button
-            className="text-gray-800 hover:text-gray-500 transition-all"
+            className="text-gray-800 hover:text-purple-600 transition-all"
             onClick={() => navigate("/profile")}>
             {user}님
           </button>
           <button
-            className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-all"
+            className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-800 transition-all"
             onClick={handleLogout}>
             로그아웃
           </button>
         </div>
       ) : (
         <button
-          className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600 transition-all"
+          className="bg-purple-600 text-white px-6 py-2 rounded-lg hover:bg-purple-800 transition-all"
           onClick={() => navigate("/login")}>
           로그인
         </button>
