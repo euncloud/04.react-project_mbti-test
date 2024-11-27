@@ -5,15 +5,6 @@ import { Link, useNavigate } from "react-router-dom";
 
 const Login = ({ setUser }) => {
 
-
-  // const handleLogin = async (formData) => {
-  //   try {
-
-  //   } catch (error) {
-  //     alert("로그인에 실패했습니다. 다시 시도해주세요.");
-  //   }
-  // };
-
   return (
     <div>
       <div>

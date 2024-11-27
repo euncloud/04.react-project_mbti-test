@@ -1,10 +1,34 @@
 import React, { useState } from "react";
 import { questions } from "../data/questions";
+import { calculateMBTI } from "../utils/mbtiCalculator";
+import { useMutation } from "@tanstack/react-query";
+import { createTestResult } from "../api/testResults";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import userBearsStore from "../zustand/bearsStore";
 
-const TestForm = ({ onSubmit }) => {
+const TestForm = () => {
   const [answers, setAnswers] = useState(
     Array(questions.length).fill({ type: "", answer: "" }),
   );
+  const [testData, setTestData] = useState({ id: "", nickname: "", mbti: "" , date: ""});
+  const navigate = useNavigate();
+  const { user, accessToken } = userBearsStore((state) => state);
+
+
+  const { mutate } = useMutation({
+    mutationFn: createTestResult, // testResults.js
+    onSuccess: (data) => {
+      console.log("test 결과 저장 완료", data);
+      toast.success("테스트 결과가 저장되었습니다!");
+      navigate("/testresult");
+    },
+    onError: (error) => {
+      console.log("test 결과 저장 실패", error.response?.data || error.message);
+      toast.error(error.response?.data.message || "데이터 저장 중 오류가 발생했습니다.\n" + error.message);
+    }
+  })
+
 
   const handleChange = (index, answer) => {
     const newAnswers = [...answers];
@@ -12,13 +36,21 @@ const TestForm = ({ onSubmit }) => {
     setAnswers(newAnswers);
   };
 
-  const handleSubmit = (e) => {
+  const handleTestSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(answers);
+    const mbti = calculateMBTI(answers);
+    const formData = {
+      token: accessToken,
+      nickname: user,
+      mbti: mbti,
+      date: new Date().toLocaleString(),
+    }
+    setTestData(formData); // setTestData 위치 이동 필요
+    mutate(formData); // 테스트 결과 DB 저장
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 p-6 bg-white rounded-lg">
+    <form onSubmit={handleTestSubmit} className="space-y-6 p-6 bg-white rounded-lg">
       {questions.map((q, index) => (
         <div key={q.id} className="mb-6">
           <p className="font-semibold text-lg mb-3">{q.question}</p>
@@ -26,9 +58,8 @@ const TestForm = ({ onSubmit }) => {
             {q.options.map((option, i) => (
               <label
                 key={i}
-                className={`block p-3 border rounded-lg cursor-pointer transition-colors duration-300 ${
-                  answers[index]?.answer === option ? "bg-gray-100" : ""
-                } hover:bg-gray-100`}
+                className={`block p-3 border rounded-lg cursor-pointer transition-colors duration-300 ${answers[index]?.answer === option ? "bg-gray-100" : ""
+                  } hover:bg-gray-100`}
               >
                 <input
                   type="radio"
@@ -36,6 +67,7 @@ const TestForm = ({ onSubmit }) => {
                   value={option}
                   checked={answers[index]?.answer === option}
                   onChange={() => handleChange(index, option)}
+                  
                   className="mr-2 text-primary-color"
                 />
                 {option}

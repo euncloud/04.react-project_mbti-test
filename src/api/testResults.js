@@ -6,8 +6,10 @@ export const getTestResults = async () => {
   return response.data;
 };
 
-export const createTestResult = async (resultData) => {
-
+export const createTestResult = async (testData) => {
+  const response = await api
+  .post("/", testData);
+  return response.data;
 };
 
 export const deleteTestResult = async (id) => {

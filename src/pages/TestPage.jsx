@@ -8,11 +8,6 @@ const TestPage = ({ user }) => {
   const navigate = useNavigate();
   const [result, setResult] = useState(null);
 
-  const handleTestSubmit = async (answers) => {
-    const mbtiResult = calculateMBTI(answers);
-		/* Test 결과는 mbtiResult 라는 변수에 저장이 됩니다. 이 데이터를 어떻게 API 를 이용해 처리 할 지 고민해주세요. */
-  };
-
   const handleNavigateToResults = () => {
     navigate("/results");
   };
@@ -25,7 +20,7 @@ const TestPage = ({ user }) => {
             <h1 className="text-3xl font-bold text-primary-color mb-6">
               MBTI 테스트
             </h1>
-            <TestForm onSubmit={handleTestSubmit} />
+            <TestForm />
           </>
         ) : (
           <>

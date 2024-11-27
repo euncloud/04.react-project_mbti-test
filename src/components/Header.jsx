@@ -11,10 +11,9 @@ const Header = () => {
 
   useEffect(() => {
     const fetchUser = async () => {
-      const response = await checkAuth(); // 로그인 되어 있는 경우 유저 정보 반환
-      setHasToken(!!response);
-      setUser(response.nickname);
-    };
+      const response = await checkAuth(); // auth.js localstorage에 토큰값 있는 경우 - 로그인 유저 정보, 또는 null
+      if (!!response) { setUser(response?.nickname, hasToken) } else { clearUser() };
+    }
     fetchUser();
   }, []);
 
@@ -38,7 +37,7 @@ const Header = () => {
         <span className="text-lg font-bold text-gray-800">홈</span>
       </div>
 
-      { hasToken || user ? (
+      {hasToken || user ? (
         <div className="flex items-center space-x-4">
           <button
             className="text-gray-800 hover:text-gray-500 transition-all"

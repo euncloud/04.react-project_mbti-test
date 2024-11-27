@@ -4,7 +4,7 @@ export const checkAuth = async () => {
   const token = localStorage.getItem("accessToken") || null;
 
   if(!token){
-    return false;
+    return null;
   }
 
   const response = await apiMoneyful
