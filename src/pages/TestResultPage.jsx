@@ -13,11 +13,11 @@ const TestResultPage = () => {
 
   const { data, isPending, isError, isSuccess, error } = useQuery({
     queryKey: ["testResults", userId],
-    queryFn: getTestResults,
+    queryFn: () => getTestResults(userId),
   });
 
   const { mutate } = useMutation({
-    mutationFn: deleteTestResult,
+    mutationFn: (userId) => deleteTestResult(userId),
     onSuccess: () => {
       queryClient.invalidateQueries(["testResults"], userId);
       toast.success("새로운 테스트를 진행합니다.");
@@ -29,8 +29,8 @@ const TestResultPage = () => {
     }
   })
 
-  const handleReStartTest = () => {
-    mutate();
+  const handleRestartTest = () => {
+    mutate(userId);
   };
 
   // useEffect(() => {
@@ -77,7 +77,7 @@ const TestResultPage = () => {
 
           {/* 테스트하기 버튼 */}
           <button
-            onClick={handleReStartTest}
+            onClick={handleRestartTest}
             className="w-full bg-purple-500 text-white py-3 rounded-lg font-semibold hover:bg-purple-600 transition duration-300"
           >
             테스트 다시 하기

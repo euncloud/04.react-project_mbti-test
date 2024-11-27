@@ -9,15 +9,14 @@ import { toast } from "react-toastify";
 const TestPage = () => {
   const navigate = useNavigate();
   const { userId } = userBearsStore((state) => state);
-  const queryClient = useQueryClient(); 
 
   const { data, isPending, isError, isSuccess, error } = useQuery({
     queryKey: ["testResults", userId],
-    queryFn: getTestResults,
+    queryFn: () => getTestResults(userId),
   });
 
   useEffect(() => {
-    if ( isSuccess === true && data && Array.isArray(data) && data.length > 0) {
+    if (isSuccess === true && data && Array.isArray(data) && data.length > 0) {
       // data에 값이 있는 경우 testresult 페이지로 이동
       toast.info("이미 테스트를 완료했습니다.");
       navigate("/testresult");
@@ -31,7 +30,7 @@ const TestPage = () => {
     return <div>Error: {error?.message || "Unknown error"}</div>;
   }
 
-  if (isSuccess && (!data || data.length === 0)) {
+  if (isSuccess) {
     return (
       <>
         <div className="w-full flex flex-col items-center justify-center bg-gray-50">

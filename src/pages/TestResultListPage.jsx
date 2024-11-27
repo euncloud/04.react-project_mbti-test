@@ -1,27 +1,29 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
-import React, { useState } from 'react';
-import { getAllTestResults } from '../api/testResults';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { deleteTestResult, getAllTestResults } from '../api/testResults';
 import { mbtiDescriptions } from '../utils/mbtiCalculator';
 import userBearsStore from '../zustand/bearsStore';
+import { toast } from 'react-toastify';
 
 const TestResultsPage = () => {
   const { userId } = userBearsStore((state) => state);
+  const queryClient = useQueryClient();
+
   const { data, isPending, isError, isSuccess, error } = useQuery({
     queryKey: ["testResults"],
     queryFn: getAllTestResults,
   });
 
-  // const { mutate: deleteResult } = useMutation({
-  //   mutationFn: register,
-  //   onSuccess: () => {
-  //     toast.success("테스트 결과가 삭제되었습니다.");
-  //     queryClient.invalidateQueries(["testResults"]); // 캐시 데이터 갱신
-  //   },
-  //   onError: (error) => {
-  //     console.error("테스트 결과 삭제 실패:", error.message);
-  //     toast.error("테스트 결과 삭제에 실패했습니다.");
-  //   },
-  // });
+  const { mutate: deleteResult } = useMutation({
+    mutationFn: (userId) => deleteTestResult(userId),
+    onSuccess: () => {
+      toast.success("테스트 결과가 삭제되었습니다.");
+      queryClient.invalidateQueries(["testResults"]); // 캐시 데이터 갱신
+    },
+    onError: (error) => {
+      console.error("테스트 결과 삭제 실패:", error.message);
+      toast.error("테스트 결과 삭제에 실패했습니다.");
+    },
+  });
 
   const getDescription = (mbtiType) => {
     return mbtiDescriptions[mbtiType] || "해당 성격 유형에 대한 설명이 없습니다.";
@@ -37,7 +39,7 @@ const TestResultsPage = () => {
 
   const handleDeleteResult = (userId) => {
     if (window.confirm("테스트 결과를 삭제하시겠습니까?")) {
-      // deleteResult(userId);
+      deleteResult(userId);
     }
   }
 
@@ -66,7 +68,7 @@ const TestResultsPage = () => {
             <div className="text-lg text-gray-800">
               {getDescription(result.mbti)}
             </div>
-            
+
             {/* 내 결과에만 보이는 버튼 */}
             {result.userId === userId && (
               <div className="mt-4 flex justify-end">

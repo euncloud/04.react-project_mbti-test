@@ -41,7 +41,7 @@ const Header = () => {
           <button
             className="text-gray-800 hover:text-purple-600 transition-all"
             onClick={() => navigate("/test")}>
-            테스트
+            테스트 하기
           </button>
           <button
             className="text-gray-800 hover:text-purple-600 transition-all"
