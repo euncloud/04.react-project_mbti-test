@@ -1,9 +1,25 @@
 import React, { useState } from "react";
-// import { updateProfile } from "../api/auth";
+import userBearsStore from "../zustand/bearsStore";
+import { useMutation } from "@tanstack/react-query";
+import { updateProfile } from "../api/auth";
+import { toast } from "react-toastify";
 
-
-const ProfilePage = ({ user, setUser }) => {
+const ProfilePage = () => {
+  const { user, userId, setUser } = userBearsStore((state) => state);
   const [nickname, setNickname] = useState(user?.nickname || "");
+
+  // const { mutation } = useMutation({
+  //   mutationFn: (userId, nickname) => changeUserInfo(userId, nickname),
+  //   onSuccess: () => toast.success('변경 완료'),
+  // })
+
+  const { mutate : saveProfile } = useMutation({
+    mutationFn: (nickname) => updateProfile(nickname),
+    onSuccess: (data) => {
+      toast.success(`닉네임이 ${data.nickname}으로 변경되었습니다.`);
+      setUser(data.nickname);
+    }
+  })
 
   const handleNicknameChange = (e) => {
     setNickname(e.target.value);
@@ -11,7 +27,7 @@ const ProfilePage = ({ user, setUser }) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    saveProfile(nickname, userId);
   };
 
   return (
@@ -23,16 +39,17 @@ const ProfilePage = ({ user, setUser }) => {
             <label className="block text-gray-700 font-semibold mb-2">닉네임</label>
             <input
               type="text"
+              value={nickname}
               onChange={handleNicknameChange}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-500"
-              placeholder="새 닉네임을 입력하세요"
+              placeholder={user}
             />
           </div>
           <button
             type="submit"
             className="w-full p-4 bg-purple-600 text-white rounded-lg hover:bg-purple-800 transition-all"
           >
-            프로필 업데이트
+            프로필 수정하기
           </button>
         </form>
       </div>
