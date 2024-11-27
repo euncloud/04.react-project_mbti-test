@@ -15,7 +15,7 @@ const Header = () => {
       if (!!response) { setUser(response?.nickname, response?.id) } else { clearUser() };
     }
     fetchUser();
-  }, []);
+  }, [user]);
 
   const handleLogout = () => {
     toast.success("👋 로그아웃 되었습니다.");
