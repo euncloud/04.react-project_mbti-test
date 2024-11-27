@@ -1,47 +1,68 @@
-import { useQuery } from '@tanstack/react-query';
-import React from 'react';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getTestResults } from '../api/testResults';
+import { deleteTestResult, getTestResults } from '../api/testResults';
 import { mbtiDescriptions } from '../utils/mbtiCalculator';
 import { toast } from 'react-toastify';
+import userBearsStore from '../zustand/bearsStore';
 
 const TestResultPage = () => {
   const navigate = useNavigate();
+  const { userId } = userBearsStore((state) => state);
+  const queryClient = useQueryClient();
 
   const { data, isPending, isError, isSuccess, error } = useQuery({
-    queryKey: ["testResults"],
+    queryKey: ["testResults", userId],
     queryFn: getTestResults,
   });
 
-  if(data === null || (Array.isArray(data) && data.length === 0)){
-    toast.error('테스트 결과가 없습니다! 테스트를 먼저 진행해 주세요.');
-    navigate('/test');
-  }
-
-  if (isPending) {
-    // 로딩 상태에서 보여줄 UI
-    return <div>Loading...</div>;
-  }
-
-  if (isError) {
-    // 오류 상태에서 보여줄 UI
-    return <div>Error: {error.message}</div>;
-  }
+  const { mutate } = useMutation({
+    mutationFn: deleteTestResult,
+    onSuccess: () => {
+      queryClient.invalidateQueries(["testResults"], userId);
+      toast.success("새로운 테스트를 진행합니다.");
+      navigate("/test");
+    },
+    onError: (error) => {
+      console.log('테스트 결과 삭제 실패', error.message);
+      toast.error('테스트 결과 삭제 중에 오류가 발생했습니다.');
+    }
+  })
 
   const handleReStartTest = () => {
-    navigate("/test"); // 테스트 페이지로 이동, 테스트 결과 삭제 필요
+    mutate();
   };
+
+  // useEffect(() => {
+  //   if (data === null || (Array.isArray(data) && data.length === 0)) {
+  //     if (!isTestResultsExist) {
+  //       toast.error("테스트 결과가 없습니다! 테스트를 먼저 진행해 주세요.");
+  //       setIsTestResultsExist(true); // Prevent further toasts
+  //     }
+  //     navigate("/test");
+  //   } else {
+  //     setIsTestResultsExist(false); // Reset on valid data
+  //   }
+  // }, [isTestResultsExist]);
+
+
+  if (isPending) return <div>Loading...</div>;
+  if (isError) return <div>Error: {error.message}</div>;
+
 
   const getDescription = (mbtiType) => {
     return mbtiDescriptions[mbtiType] || "해당 성격 유형에 대한 설명이 없습니다.";
   }
 
-  if (isSuccess) {
+  if (isSuccess && data && data[0]) {
     const mbtiDetail = getDescription(data[0].mbti);
-  
+
     return (
       <div className="bg-gray-50 py-10">
         {/* 결과 페이지 내용 */}
+        <div className="max-w-2xl mx-auto text-left">
+          <h2 className="text-3xl font-semibold text-gray-800 mb-10">나의 MBTI 테스트 결과</h2>
+        </div>
         <div className="max-w-2xl mx-auto p-8 bg-white rounded-lg shadow-lg space-y-6">
           <h1 className="text-4xl font-bold text-center text-gray-800">
             {data[0].mbti}

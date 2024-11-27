@@ -7,13 +7,13 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import userBearsStore from "../zustand/bearsStore";
 
-const TestForm = ({ onSubmit }) => {
+const TestForm = () => {
   const [answers, setAnswers] = useState(
     Array(questions.length).fill({ type: "", answer: "" }),
   );
   // const [testData, setTestData] = useState({ id: "", nickname: "", mbti: "", date: "" });
   const navigate = useNavigate();
-  const { user, accessToken } = userBearsStore((state) => state);
+  const { user, userId } = userBearsStore((state) => state);
 
   const { mutate } = useMutation({
     mutationFn: createTestResult, // testResults.js
@@ -37,14 +37,14 @@ const TestForm = ({ onSubmit }) => {
   const handleTestSubmit = async (e) => {
     e.preventDefault();
     const mbti = calculateMBTI(answers);
-    const formData = {
-      token: accessToken,
+    const testData = {
       nickname: user,
+      userId: userId,
       mbti: mbti,
       date: new Date().toLocaleString(),
     }
     // setTestData(formData); 
-    mutate(formData); // 테스트 결과 DB 저장
+    mutate(testData); // 테스트 결과 DB 저장
   };
 
   return (

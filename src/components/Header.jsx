@@ -12,7 +12,7 @@ const Header = () => {
   useEffect(() => {
     const fetchUser = async () => {
       const response = await checkAuth(); // auth.js localstorage에 토큰값 있는 경우 - 로그인 유저 정보, 또는 null
-      if (!!response) { setUser(response?.nickname, hasToken) } else { clearUser() };
+      if (!!response) { setUser(response?.nickname, response?.id) } else { clearUser() };
     }
     fetchUser();
   }, []);
@@ -45,8 +45,8 @@ const Header = () => {
           </button>
           <button
             className="text-gray-800 hover:text-purple-600 transition-all"
-            onClick={() => navigate("/testresult")}>
-            결과보기
+            onClick={() => navigate("/testresultlist")}>
+            전체 결과보기
           </button>
           <button
             className="text-gray-800 hover:text-purple-600 transition-all"

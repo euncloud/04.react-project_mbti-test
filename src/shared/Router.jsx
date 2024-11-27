@@ -6,7 +6,8 @@ import SignupPage from "../pages/SignupPage";
 import ProfilePage from "../pages/ProfilePage";
 import TestPage from "../pages/TestPage";
 import TestResultPage from "../pages/TestResultPage";
-import ProtectedRoute from "../components/ProtectedRoute";
+import TestResultListPage from "../pages/TestResultListPage";
+import ProtectedRoute from "./ProtectedRoute";
 import NotFound from "../pages/NotFound";
 
 const SharedRouter = () => (
@@ -22,6 +23,7 @@ const SharedRouter = () => (
                     <Route path="/profile" element={<ProfilePage />} />
                     <Route path="/test" element={<TestPage />} />
                     <Route path="/testresult" element={<TestResultPage />} />
+                    <Route path="/testresultlist" element={<TestResultListPage/>} />
                 </Route>
             </Route>
         </Routes>

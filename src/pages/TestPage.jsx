@@ -1,46 +1,52 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import TestForm from "../components/TestForm";
-import { mbtiDescriptions } from "../utils/mbtiCalculator";
 import { useNavigate } from "react-router-dom";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getTestResults } from "../api/testResults";
+import userBearsStore from "../zustand/bearsStore";
+import { toast } from "react-toastify";
 
-const TestPage = ({ user }) => {
+const TestPage = () => {
   const navigate = useNavigate();
-  const [result, setResult] = useState(null); // 테스트 결과가 있는 경우?
+  const { userId } = userBearsStore((state) => state);
+  const queryClient = useQueryClient(); 
 
-  const handleNavigateToResults = () => {
-    navigate("/results");
-  };
+  const { data, isPending, isError, isSuccess, error } = useQuery({
+    queryKey: ["testResults", userId],
+    queryFn: getTestResults,
+  });
 
-  return (
-    <div className="w-full flex flex-col items-center justify-center bg-gray-50">
-      <div className="bg-white rounded-lg p-8 max-w-2xl w-full h-full overflow-y-auto">
-        {!result ? (
-          <>
+  useEffect(() => {
+    if ( isSuccess === true && data && Array.isArray(data) && data.length > 0) {
+      // data에 값이 있는 경우 testresult 페이지로 이동
+      toast.info("이미 테스트를 완료했습니다.");
+      navigate("/testresult");
+    }
+  }, [data]);
+
+  if (isPending) {
+    return <div>Loading...</div>;
+  }
+  if (isError) {
+    return <div>Error: {error?.message || "Unknown error"}</div>;
+  }
+
+  if (isSuccess && (!data || data.length === 0)) {
+    return (
+      <>
+        <div className="w-full flex flex-col items-center justify-center bg-gray-50">
+          <div className="bg-white rounded-lg p-8 max-w-2xl w-full h-full overflow-y-auto">
             <h1 className="text-3xl font-bold text-primary-color mb-6">
               MBTI 테스트
             </h1>
             <TestForm />
-          </>
-        ) : (
-          <>
-            <h1 className="text-3xl font-bold text-primary-color mb-6">
-              테스트 결과: {result}
-            </h1>
-            <p className="text-lg text-gray-700 mb-6">
-              {mbtiDescriptions[result] ||
-                "해당 성격 유형에 대한 설명이 없습니다."}
-            </p>
-            <button
-              onClick={handleNavigateToResults}
-              className="w-full bg-primary-color text-white py-3 rounded-lg font-semibold hover:bg-primary-dark transition duration-300 hover:text-[#FF5A5F]"
-            >
-              결과 페이지로 이동하기
-            </button>
-          </>
-        )}
-      </div>
-    </div>
-  );
+
+          </div>
+        </div>
+      </>
+    );
+  }
+
 };
 
 export default TestPage;
