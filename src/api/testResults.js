@@ -16,7 +16,7 @@ export const deleteTestResult = async () => {
   const token = localStorage.getItem("accessToken") || null;
 
   if (!token) {
-    throw new Error('토큰이 없습니다.');
+    throw new Error('로그인 후 다시 이용해 주세요.');
   }
 
   const response = await api.get(`?token=${token}`);
