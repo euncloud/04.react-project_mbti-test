@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 const Login = () => {
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center pt-[120px]">
       <div className="bg-white p-8 rounded-lg shadow-lg w-[70%] sm:w-[550px] mb-[300px]">
         <h1 className="text-3xl font-semibold text-center mb-6">로그인</h1>
         <AuthForm mode="login" />

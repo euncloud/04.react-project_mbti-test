@@ -28,7 +28,7 @@ const AuthForm = ({ mode }) => {
     mutationFn: login, // auth.js login
     onSuccess: (data) => {
       console.log('data', data);
-      toast.success("로그인 성공! 👋");
+      toast.success("로그인 성공! 환영합니다. 👋");
 
       localStorage.setItem("accessToken", data.accessToken); // 로컬스토리지에 로그인 토큰 정보 저장
       setUser(data.nickname, data.userId); // 전역 변수로 유저 닉네임, 토큰 정보 저장
@@ -83,7 +83,7 @@ const AuthForm = ({ mode }) => {
           onChange={handleChange}
           placeholder="닉네임"
           required
-          className="w-full p-4 border border-gray-300 rounded-lg"
+          className="w-full p-4 border border-gray-300 rounded-lg mb-2"
         />
       )}
       <button type="submit"

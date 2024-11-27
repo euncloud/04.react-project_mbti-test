@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 
 const HomePage = () => {
   return (
-    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-start p-8">
+    <div className="min-h-screen bg-gray-50 flex flex-col items-center justify-start p-8 pt-[120px]">
       {/* 첫 번째 섹션: 타이틀과 간단한 소개 */}
       <div className="bg-white rounded-lg shadow-lg p-10 max-w-3xl w-full mb-8 border-4 border-purple-500 hover:border-purple-600 transition-all duration-300">
         <h1 className="text-4xl font-bold text-gray-900 mb-6">
           무료 성격 테스트
         </h1>
         <p className="text-lg text-gray-700 mb-6">
-          간단한 테스트로 쉽고 빠르게 자신의 성격 유형을 확인할 수 있어요! <br/> 정확한 테스트 결과를 위해 솔직하게 답변해 주세요 💡
+          간단한 테스트로 쉽고 빠르게 자신의 성격 유형을 확인할 수 있어요! <br/> 정확한 테스트 결과를 위해 솔직하게 답변해 주세요. 💡
         </p>
         <div className="flex justify-center">
           <Link

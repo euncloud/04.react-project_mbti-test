@@ -44,7 +44,7 @@ const TestResultsPage = () => {
   }
 
   return (
-    <div className="bg-gray-50 py-10">
+    <div className="bg-gray-50 py-10 pt-[120px]">
       <div className="text-3xl font-bold text-[#333333] text-center mb-6">
         전체 테스트 결과
       </div>

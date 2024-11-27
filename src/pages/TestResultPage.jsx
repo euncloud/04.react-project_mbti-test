@@ -58,7 +58,7 @@ const TestResultPage = () => {
     const mbtiDetail = getDescription(data[0].mbti);
 
     return (
-      <div className="bg-gray-50 py-10">
+      <div className="bg-gray-100 py-10 h-screen pt-[120px]">
         {/* 결과 페이지 내용 */}
         <div className="max-w-2xl mx-auto text-center">
           <h2 className="text-3xl font-semibold text-gray-800 mb-10">{user}님의 MBTI 테스트 결과</h2>

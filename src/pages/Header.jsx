@@ -26,7 +26,7 @@ const Header = () => {
   };
 
   return (
-    <header className="bg-white shadow-md flex items-center justify-between px-6 py-4">
+    <header className="bg-white shadow-md flex items-center justify-between px-6 py-4 fixed top-0 left-0 right-0 z-50">
       <div className="flex items-center">
         <img
           src="/mbti.png"
@@ -39,17 +39,17 @@ const Header = () => {
       {hasToken || user ? (
         <div className="flex items-center space-x-8">
           <button
-            className="text-gray-800 hover:text-purple-600 transition-all"
+            className="text-gray-800 font-semibold hover:text-purple-600 transition-all"
             onClick={() => navigate("/test")}>
             테스트 하기
           </button>
           <button
-            className="text-gray-800 hover:text-purple-600 transition-all"
+            className="text-gray-800 font-semibold hover:text-purple-600 transition-all"
             onClick={() => navigate("/testresultlist")}>
             전체 결과보기
           </button>
           <button
-            className="text-gray-800 hover:text-purple-600 transition-all"
+            className="text-gray-800 font-semibold hover:text-purple-600 transition-all"
             onClick={() => navigate("/profile")}>
             {user}님
           </button>
