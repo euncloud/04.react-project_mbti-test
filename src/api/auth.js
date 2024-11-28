@@ -7,11 +7,16 @@ export const checkAuth = async () => {
     return null;
   }
 
-  const response = await apiMoneyful
-    .get("/user", {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-  return response.data;
+  try {
+    const response = await apiMoneyful
+      .get("/user", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+    return response.data;
+  } catch (error) {
+    console.error("인증 확인 실패:", error.message);
+    throw new Error("인증 확인에 실패했습니다.");
+  }
 }
 
 export const register = async (userData) => {
@@ -49,6 +54,6 @@ export const updateProfile = async (nickname) => {
     return response.data;
   } catch (error) {
     console.error("Profile update failed", error);
-    throw error; 
+    throw error;
   }
 };
